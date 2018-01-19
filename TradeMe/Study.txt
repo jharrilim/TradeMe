@@ -1,0 +1,19 @@
+﻿--Terminology--
+Bid: An order placed with the intent of purchasing a share or shares at the price that the shareholder states.
+Ask: An order placed with the intent of selling a share or shares at the price that the shareholder states.
+--/Terminology--
+
+--Notes--
+On Trading:
+	Limit trades execute when prices match or intersect. Lower selling prices take priority over higher
+	selling prices. Higher buying prices take priority over lower buying prices. Orders that are placed first
+	take precedence over later orders when trading at the same price.
+--/Notes--
+
+--Stories--
+As a shareholder, I want
+	[ ] to be able to place limit orders so that I can buy/sell securities at my prices or better.
+	[ ] to be able to place market orders so that I can buy/sell at the current best offered prices.
+	[ ] to be able to get currently open orders for given securities so that I may make calculated decisions.
+	[ ] to be able to view all of the transactions I have made so that I may keep record of my actions.
+--/Stories--
