@@ -31,7 +31,7 @@ namespace TradeMe.Console
 			PrintHeader();
 			WriteLine("| 1) Add Security         |");
 			WriteLine("| 2) View Securities      |");
-			WriteLine("| 3) Add Shareholder      |");
+			WriteLine("| 3) Add New Shareholder  |");
 			WriteLine("| 4) View Shareholders    |");
 			WriteLine("| 5) Select Shareholder   |");
 			WriteLine("| Q) Quit                 |");
@@ -110,11 +110,17 @@ namespace TradeMe.Console
 			WriteLine("|                         |");
 			WriteLine("| Initial Balance:        |");
 			WriteLine("|                         |");
+			WriteLine("| Email Address:          |");
+			WriteLine("|                         |");
+			WriteLine("| Password:               |");
+			WriteLine("|                         |");
 			WriteLine("+-------------------------+");
 			SetCursorPosition(2, 4);
 			string name = ReadLine();
 			SetCursorPosition(2, 6);
 			decimal initialBalance = decimal.Parse(ReadLine());
+			// TODO: user
+
 			Shareholder shareholder = new Shareholder(name, initialBalance);
 			exchange.AddShareholder(shareholder);
 			SetCursorPosition(2, 8);

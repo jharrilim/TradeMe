@@ -1,11 +1,13 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TradeMe.Actor;
 
 namespace TradeMe.Trade
 {
+	[Serializable]
 	internal class Transaction
 	{
-		internal Guid guid { get; }
+		internal Guid Guid { get; }
 		internal Shareholder Buyer { get; }
 		internal Shareholder Seller { get; }
 		internal Security Share { get; }
@@ -13,9 +15,9 @@ namespace TradeMe.Trade
 		internal decimal Amount { get; }
 		internal decimal TotalCost { get { return Amount * Price; } }
 
-		internal Transaction(Shareholder buyer, Shareholder seller, Security share, decimal price, decimal amount)
+		internal Transaction(Shareholder buyer, Shareholder seller, Security share, decimal price, uint amount)
 		{
-			guid = Guid.NewGuid();
+			Guid = Guid.NewGuid();
 			Buyer = buyer;
 			Seller = seller;
 			Share = share;
@@ -26,6 +28,11 @@ namespace TradeMe.Trade
 		public override string ToString()
 		{
 			return $"{Buyer.Name} bought {Share.Name}({Share.Symbol}) from {Seller.Name} for {Price:c2} each.";
+		}
+
+		public string ToJson()
+		{
+			return JsonConvert.SerializeObject(this);
 		}
 	}
 }

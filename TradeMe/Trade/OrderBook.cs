@@ -5,19 +5,17 @@ using System.Collections.Generic;
 
 namespace TradeMe.Trade
 {
-	public class OrderBook
+	internal class OrderBook
 	{
 		public SortedList<decimal, List<LimitOrder>> Bids { get; }
 
 		public SortedList<decimal, List<LimitOrder>> Asks { get; }
 
-		public bool IsIntersecting
-		{
-			get
-			{
-				return Asks.First().Key <= Bids.First().Key;
-			}
-		}
+		public decimal BidQuote { get { return Bids.First().Key; } }
+
+		public decimal AskQuote { get { return Asks.First().Key; } }
+
+		public decimal Spread { get { return Asks.First().Key - Bids.First().Key; } }
 
 		public OrderBook()
 		{
@@ -25,11 +23,11 @@ namespace TradeMe.Trade
 			Asks = new SortedList<decimal, List<LimitOrder>>();
 		}
 
-		public Order RemoveFirstBid()
+		public LimitOrder RemoveFirstBid()
 		{
 			lock (Bids)
 			{
-				Order bid = Bids.First().Value.First();
+				LimitOrder bid = Bids.First().Value.First();
 				Bids.First().Value.RemoveAt(0);
 				if (Bids.First().Value.Count == 0)
 				{
@@ -39,11 +37,11 @@ namespace TradeMe.Trade
 			}
 		}
 
-		public Order RemoveFirstAsk()
+		public LimitOrder RemoveFirstAsk()
 		{
 			lock (Asks)
 			{
-				Order ask = Asks.First().Value.First();
+				LimitOrder ask = Asks.First().Value.First();
 				Asks.First().Value.RemoveAt(0);
 				if (Asks.First().Value.Count == 0)
 				{
@@ -52,7 +50,5 @@ namespace TradeMe.Trade
 				return ask;
 			}
 		}
-
-
 	}
 }

@@ -7,16 +7,27 @@ namespace TradeMe.Trade
 {
     internal class Ledger
     {
-		private List<Transaction> transactions;
+		private readonly Stack<Transaction> transactions;
+		private readonly Security security;
 
-		internal Ledger()
+		internal decimal MostRecentPrice
 		{
-			transactions = new List<Transaction>();
+			get
+			{
+				return transactions.Peek().Price;
+			}
 		}
 
-		internal void AddTransaction(Shareholder buyer, Shareholder seller, Security share, decimal price, int amount)
+		internal Ledger(Security security)
 		{
-			transactions.Add(new Transaction(buyer, seller, share, price, amount));
+			this.security = security;
+			transactions = new Stack<Transaction>();
 		}
+
+		internal void AddTransaction(Shareholder buyer, Shareholder seller, decimal price, uint amount)
+		{
+			transactions.Push(new Transaction(buyer, seller, security, price, amount));
+		}
+
     }
 }

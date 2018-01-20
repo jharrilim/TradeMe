@@ -11,16 +11,14 @@ namespace TradeMe.Trade
 
 		public string Name { get; }
 		public string Symbol { get; }
-		public decimal MarketPrice { get; set; }
-
+		public decimal MarketQuote { get { return ledger.MostRecentPrice; } }
 		public DateTime DateAdded { get; }
 		public DateTime IPODate { get; private set; }
 
 		private Security()
 		{
 			DateAdded = DateTime.Now;
-			MarketPrice = 0;
-			ledger = new Ledger();
+			ledger = new Ledger(this);
 			orderBook = new OrderBook();
 		}
 		public Security(string name, string symbol): this()
@@ -31,12 +29,29 @@ namespace TradeMe.Trade
 
 		public void MatchOrders()
 		{
-			if (orderBook.IsIntersecting)
+			if (orderBook.BidQuote == orderBook.AskQuote)
 			{
 				var ask = orderBook.RemoveFirstAsk();
 				var bid = orderBook.RemoveFirstBid();
+				uint askRemaining = ask.Amount - bid.Amount;
+				// TODO
+				//ask.Fill(bid.Amount);
+				if (askRemaining > 0)
+				{
+					//LimitOrder remainderAsk = new LimitOrder(ask.Shareholder, this, ask.Price, askRemaining, OrderType.Ask);
+					AddAsk(ask);
+				}
+				ledger.AddTransaction(bid.Shareholder, ask.Shareholder, bid.Price, bid.Amount);
 			}
-			//a.Order.Status = OrderStatus.Filled;
+			else if (orderBook.BidQuote > orderBook.AskQuote)
+			{
+				var ask = orderBook.RemoveFirstAsk();
+				var bid = orderBook.RemoveFirstBid();
+				if (ask.DateCreated < bid.DateCreated)
+				{
+					ledger.AddTransaction(bid.Shareholder, ask.Shareholder, ask.Price, ask.Amount);
+				}
+			}
 		}
 
 		public void AddBid(LimitOrder order)
