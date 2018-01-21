@@ -23,6 +23,20 @@ namespace TradeMe.Trade
 			Asks = new SortedList<decimal, List<LimitOrder>>();
 		}
 
+		public LimitOrder PeekBid() => Bids.First().Value.First();
+
+		public LimitOrder PeekAsk() => Asks.First().Value.First();
+
+		internal bool RemoveAsk(LimitOrder order)
+		{
+			return Asks.First().Value.Remove(order);
+		}
+
+		internal bool RemoveBid(LimitOrder order)
+		{
+			return Bids.First().Value.Remove(order);
+		}
+
 		public LimitOrder RemoveFirstBid()
 		{
 			lock (Bids)

@@ -44,12 +44,20 @@ namespace TradeMe.Trade
 				securities[security] = security;
 		}
 
+		public void EnlistSecurity(params Security[] securities)
+		{
+			foreach(var s in securities)
+			{
+				EnlistSecurity(s);
+			}
+		}
+
 		public void DelistSecurity(Security security)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void PlaceLimitOrder(LimitOrder order) // throws KeyNotFoundException, InvalidOperationException
+		internal void PlaceLimitOrder(LimitOrder order) // throws KeyNotFoundException, InvalidOperationException
 		{
 			switch (order.OrderType)
 			{
@@ -65,5 +73,13 @@ namespace TradeMe.Trade
 		}
 
 		public void AddShareholder(Shareholder shareholder) => Shareholders.Add(shareholder);
+
+		public void AddShareholder(params Shareholder[] shareholders)
+		{
+			foreach (var s in shareholders)
+			{
+				AddShareholder(s);
+			}
+		}
     }
 }

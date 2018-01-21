@@ -31,17 +31,16 @@ namespace TradeMe.Trade
 		{
 			if (orderBook.BidQuote == orderBook.AskQuote)
 			{
-				var ask = orderBook.RemoveFirstAsk();
-				var bid = orderBook.RemoveFirstBid();
-				uint askRemaining = ask.Amount - bid.Amount;
-				// TODO
-				//ask.Fill(bid.Amount);
-				if (askRemaining > 0)
-				{
-					//LimitOrder remainderAsk = new LimitOrder(ask.Shareholder, this, ask.Price, askRemaining, OrderType.Ask);
-					AddAsk(ask);
-				}
-				ledger.AddTransaction(bid.Shareholder, ask.Shareholder, bid.Price, bid.Amount);
+				LimitOrder ask = orderBook.PeekAsk();
+				LimitOrder bid = orderBook.PeekBid();
+				uint least = ask.Amount < bid.Amount ? ask.Amount : bid.Amount;
+				uint aRemainder = ask.Fill(least);
+				uint bRemainder = bid.Fill(least);
+				if (aRemainder == 0)
+					orderBook.RemoveAsk(ask);
+				if (bRemainder == 0)
+					orderBook.RemoveBid(bid);
+				ledger.AddTransaction(bid.Shareholder, ask.Shareholder, bid.Price, least);
 			}
 			else if (orderBook.BidQuote > orderBook.AskQuote)
 			{

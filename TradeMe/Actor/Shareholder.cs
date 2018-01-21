@@ -7,18 +7,19 @@ namespace TradeMe.Actor
 {
     public class Shareholder
     {
-		public string Name { get; set; }
+		private readonly Dictionary<Security, ulong> securities;
+		private readonly List<Order> openOrders;
+		private readonly List<Order> closedOrders;
+
+		public string Name { get; }
 		public decimal Balance { get; private set; }
-		private Dictionary<Security, ulong> Securities { get; set; }
-		private List<Order> OpenOrders { get; set; }
-		private List<Order> ClosedOrders { get; set; }
 
 		public Shareholder(string name)
 		{
 			Name = name;
-			Securities = new Dictionary<Security, ulong>();
-			OpenOrders = new List<Order>();
-			ClosedOrders = new List<Order>();
+			securities = new Dictionary<Security, ulong>();
+			openOrders = new List<Order>();
+			closedOrders = new List<Order>();
 		}
 
 		public Shareholder(string name, decimal initialBalance) : this(name)
@@ -29,9 +30,9 @@ namespace TradeMe.Actor
 		public void PlaceBuyLimitOrder(Exchange exchange, Security security, decimal price, uint amount)
 		{
 			var order = new LimitOrder(this, security, price, amount, OrderType.Bid);
-			order.OrderFilled += OnOrderFilled;
+			order.OrderFilled += OnLimitOrderFilled;
 			exchange.PlaceLimitOrder(order);
-			OpenOrders.Add(order);
+			openOrders.Add(order);
 			
 		}
 		
@@ -39,22 +40,25 @@ namespace TradeMe.Actor
 		{
 			var order = new LimitOrder(this, security, price, amount, OrderType.Ask);
 			exchange.PlaceLimitOrder(order);
-			OpenOrders.Add(order);
+			openOrders.Add(order);
 		}
 
 		public void PlaceBuyMarketOrder()
 		{
+			throw new NotImplementedException();
 		}
 
 		public void PlaceSellMarketOrder()
 		{
-
+			throw new NotImplementedException();
 		}
 
-		private void OnOrderFilled(OrderFilledArgs a)
+		private void OnLimitOrderFilled(LimitOrderFilledArgs a)
 		{
-			// Do stuff
-			a.Order.OrderFilled -= OnOrderFilled;
+			a.Order.OrderFilled -= OnLimitOrderFilled;
+			openOrders.Remove(a.Order);
+			closedOrders.Add(a.Order);
+			securities[a.Order.Security] += a.Order.OrderType ?
 		}
     }
 }
