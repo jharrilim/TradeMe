@@ -7,7 +7,7 @@ namespace TradeMe.Actor
 {
     public class Shareholder
     {
-		private readonly Dictionary<Security, ulong> securities;
+		private readonly Dictionary<Security, long> securities;
 		private readonly List<Order> openOrders;
 		private readonly List<Order> closedOrders;
 
@@ -17,7 +17,7 @@ namespace TradeMe.Actor
 		public Shareholder(string name)
 		{
 			Name = name;
-			securities = new Dictionary<Security, ulong>();
+			securities = new Dictionary<Security, long>();
 			openOrders = new List<Order>();
 			closedOrders = new List<Order>();
 		}
@@ -30,7 +30,7 @@ namespace TradeMe.Actor
 		public void PlaceBuyLimitOrder(Exchange exchange, Security security, decimal price, uint amount)
 		{
 			var order = new LimitOrder(this, security, price, amount, OrderType.Bid);
-			order.OrderFilled += OnLimitOrderFilled;
+			order.LimitOrderFilled += OnLimitOrderFilled;
 			exchange.PlaceLimitOrder(order);
 			openOrders.Add(order);
 			
@@ -55,10 +55,10 @@ namespace TradeMe.Actor
 
 		private void OnLimitOrderFilled(LimitOrderFilledArgs a)
 		{
-			a.Order.OrderFilled -= OnLimitOrderFilled;
+			a.Order.LimitOrderFilled -= OnLimitOrderFilled;
 			openOrders.Remove(a.Order);
 			closedOrders.Add(a.Order);
-			securities[a.Order.Security] += a.Order.OrderType ?
+			securities[a.Order.Security] += a.Order.OrderType == OrderType.Ask ? a.Order.Amount * -1 : a.Order.Amount;
 		}
     }
 }

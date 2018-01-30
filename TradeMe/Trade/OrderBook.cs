@@ -19,7 +19,7 @@ namespace TradeMe.Trade
 
 		public OrderBook()
 		{
-			Bids = new SortedList<decimal, List<LimitOrder>>();
+			Bids = new SortedList<decimal, List<LimitOrder>>(new BidComparer());
 			Asks = new SortedList<decimal, List<LimitOrder>>();
 		}
 
@@ -62,6 +62,14 @@ namespace TradeMe.Trade
 					Asks.RemoveAt(0);
 				}
 				return ask;
+			}
+		}
+
+		private class BidComparer : IComparer<decimal>
+		{
+			public int Compare(decimal x, decimal y)
+			{
+				return Comparer<decimal>.Default.Compare(y, x); 
 			}
 		}
 	}

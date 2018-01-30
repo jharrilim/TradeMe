@@ -36,10 +36,10 @@ namespace TradeMe.Trade
 
 	public class LimitOrderFilledArgs : EventArgs
 	{
-		public Order Order { get; }
+		public LimitOrder Order { get; }
 		public DateTime DateFilled { get; }
 
-		public LimitOrderFilledArgs(Order order) : base()
+		public LimitOrderFilledArgs(LimitOrder order) : base()
 		{
 			Order = order;
 			DateFilled = DateTime.Now;

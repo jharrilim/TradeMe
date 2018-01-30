@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeMe.Console", "TradeMe.Console\TradeMe.Console.csproj", "{78DF45DB-2DBA-4F8D-B777-9DFCFC4821CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeMe.Tests", "TradeMe.Tests\TradeMe.Tests.csproj", "{339BEC5B-8DED-40A3-9316-48B89B91D5A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{136A01C4-AD3F-4BC1-9885-5AEC478BA4C3} = {136A01C4-AD3F-4BC1-9885-5AEC478BA4C3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

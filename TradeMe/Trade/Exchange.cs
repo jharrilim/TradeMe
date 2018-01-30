@@ -47,9 +47,7 @@ namespace TradeMe.Trade
 		public void EnlistSecurity(params Security[] securities)
 		{
 			foreach(var s in securities)
-			{
 				EnlistSecurity(s);
-			}
 		}
 
 		public void DelistSecurity(Security security)
@@ -57,7 +55,7 @@ namespace TradeMe.Trade
 			throw new NotImplementedException();
 		}
 
-		internal void PlaceLimitOrder(LimitOrder order) // throws KeyNotFoundException, InvalidOperationException
+		internal void PlaceLimitOrder(LimitOrder order)
 		{
 			switch (order.OrderType)
 			{
