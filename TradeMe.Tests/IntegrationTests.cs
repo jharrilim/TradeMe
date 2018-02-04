@@ -1,14 +1,12 @@
-using System;
-using TradeMe.Actor;
-using TradeMe.Trade;
+using System.Diagnostics;
 using Xunit;
 
 namespace TradeMe.Tests
 {
-    public class ExchangeTests
+    public class IntegrationTests
     {
         [Fact]
-        public void PlacingAnOrder_IntegrationTest()
+        public void PlacingAnOrder_ShouldMatch()
         {
             Exchange exchange = new Exchange("Test");
             Security security = new Security("Test", "TST");
@@ -19,8 +17,13 @@ namespace TradeMe.Tests
             sh2.PlaceSellLimitOrder(exchange, security, 50, 20);
             sh1.PlaceBuyLimitOrder(exchange, security, 100, 10);
             security.MatchOrders();
+            Debug.WriteLine(security.ReadLedger());
+        }
 
-            System.Diagnostics.Debug.WriteLine(security.ReadLedger());
+        [Fact]
+        public void PlacingAnOrder_ShouldNotMatch()
+        {
+
         }
     }
 }

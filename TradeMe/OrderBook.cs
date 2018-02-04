@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Collections;
+﻿using System.Linq;
 using System.Collections.Generic;
 
-namespace TradeMe.Trade
+namespace TradeMe
 {
     internal class OrderBook
     {

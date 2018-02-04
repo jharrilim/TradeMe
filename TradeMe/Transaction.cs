@@ -1,9 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using TradeMe.Actor;
 
-namespace TradeMe.Trade
+namespace TradeMe
 {
     [Serializable]
     internal class Transaction

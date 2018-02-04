@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TradeMe.Actor;
 
-namespace TradeMe.Trade
+namespace TradeMe
 {
     [Serializable]
     public class Security
@@ -109,8 +108,7 @@ namespace TradeMe.Trade
             StringBuilder sb = new StringBuilder();
             foreach (var transaction in ledger.Transactions)
             {
-                sb.Append(transaction.ToJson());
-                sb.Append(',');
+                sb.AppendJoin(',', transaction.ToJson());
             }
             return sb.ToString();
         }

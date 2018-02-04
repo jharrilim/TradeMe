@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using TradeMe.Actor;
-using TradeMe.Trade;
+﻿using System.Diagnostics;
 using Xunit;
 
 namespace TradeMe.Tests

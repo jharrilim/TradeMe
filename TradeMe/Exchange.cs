@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TradeMe.Actor;
 
-namespace TradeMe.Trade
+namespace TradeMe
 {
 	[Serializable]
 	public class Exchange

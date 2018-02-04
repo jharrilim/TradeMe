@@ -1,7 +1,4 @@
-﻿using System;
-using static System.Console;
-using TradeMe.Actor;
-using TradeMe.Trade;
+﻿using static System.Console;
 
 namespace TradeMe.Console
 {

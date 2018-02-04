@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Security;
-using System.Text;
-using TradeMe.Actor;
+
 namespace TradeMe.Console
 {
     public class User : Shareholder

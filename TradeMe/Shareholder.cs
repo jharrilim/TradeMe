@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using TradeMe.Trade;
 
-namespace TradeMe.Actor
+namespace TradeMe
 {
     public class Shareholder
     {
