@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using TradeMe.Actor;
 
 namespace TradeMe.Trade
@@ -7,11 +8,22 @@ namespace TradeMe.Trade
 	[Serializable]
 	internal class Transaction
 	{
+		[JsonProperty]
 		internal Guid Guid { get; }
+
+		[JsonProperty]
 		internal Shareholder Buyer { get; }
+
+		[JsonProperty]
 		internal Shareholder Seller { get; }
+
+		[JsonProperty()]
 		internal Security Share { get; }
+
+		[JsonProperty()]
 		internal decimal Price { get; }
+
+		[JsonProperty()]
 		internal decimal Amount { get; }
 		internal decimal TotalCost { get { return Amount * Price; } }
 
@@ -33,6 +45,16 @@ namespace TradeMe.Trade
 		public string ToJson()
 		{
 			return JsonConvert.SerializeObject(this);
+		}
+		
+		public string ToJsonPretty()
+		{
+			return JsonConvert.SerializeObject
+				(
+					this,
+					Formatting.Indented, 
+					new JsonConverter[] { new StringEnumConverter() }
+				);
 		}
 	}
 }

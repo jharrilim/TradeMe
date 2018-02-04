@@ -1,18 +1,28 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using TradeMe.Actor;
 
 namespace TradeMe.Trade
 {
+	[Serializable]
     public class Security
     {
 		private readonly Ledger ledger;
+
 		private readonly OrderBook orderBook;
 
+		[JsonProperty]
 		public string Name { get; }
+
+		[JsonProperty]
 		public string Symbol { get; }
+
+		[JsonIgnore]
 		public decimal MarketQuote { get { return ledger.MostRecentPrice; } }
+
+		[JsonProperty]
 		public DateTime DateAdded { get; }
 		public DateTime IPODate { get; private set; }
 
@@ -94,10 +104,23 @@ namespace TradeMe.Trade
 			return $"{Name} - ({Symbol})";
 		}
 
+		public string ReadLedger()
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach(var transaction in ledger.Transactions)
+			{
+				sb.Append(transaction.ToJson());
+				sb.Append(',');
+			}
+			return sb.ToString();
+		}
+
 		private class Ledger
 		{
 			private readonly Stack<Transaction> transactions;
 			private readonly Security security;
+
+			internal IEnumerable<Transaction> Transactions { get => new Stack<Transaction>(transactions); }
 
 			internal decimal MostRecentPrice
 			{
@@ -117,7 +140,6 @@ namespace TradeMe.Trade
 			{
 				transactions.Push(new Transaction(buyer, seller, security, price, amount));
 			}
-
 		}
 	}
 }

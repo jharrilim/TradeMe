@@ -1,24 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TradeMe.Actor;
 
 namespace TradeMe.Trade
 {
+	[Serializable]
 	public class Exchange
 	{
 		private Dictionary<Security, Security> securities; // rip c# hashset
 
 		public List<Shareholder> Shareholders { get; }
 
-		public List<Security> Securities
-		{
-			get
-			{
-				return securities.Keys.ToList();
-			}
-		}
+		public List<Security> Securities { get => securities.Keys.ToList(); }
 
+		[JsonProperty()]
 		public string Name { get; }
 		
 		public Exchange()

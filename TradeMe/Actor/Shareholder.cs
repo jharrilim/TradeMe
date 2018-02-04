@@ -58,6 +58,7 @@ namespace TradeMe.Actor
 			a.Order.LimitOrderFilled -= OnLimitOrderFilled;
 			openOrders.Remove(a.Order);
 			closedOrders.Add(a.Order);
+			securities[a.Order.Security] = 0;
 			securities[a.Order.Security] += a.Order.OrderType == OrderType.Ask ? a.Order.Amount * -1 : a.Order.Amount;
 		}
     }

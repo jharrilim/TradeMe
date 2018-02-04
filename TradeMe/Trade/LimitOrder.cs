@@ -20,7 +20,7 @@ namespace TradeMe.Trade
 			set
 			{
 				base.Status = value;
-				if (base.Status == OrderStatus.Filled)
+				if (base.Status == OrderStatus.Filled && LimitOrderFilled != null)
 					LimitOrderFilled(new LimitOrderFilledArgs(this));
 			}
 		}
