@@ -5,39 +5,47 @@ using System.Linq;
 
 namespace TradeMe
 {
+    static class HashSetExtensions
+    {
+        public static T GetItem<T>(this HashSet<T> hset, T item)
+        {
+            return hset.Contains(item) ? item : throw new KeyNotFoundException();
+        }
+    }
+
 	[Serializable]
 	public class Exchange
 	{
-		private Dictionary<Security, Security> securities; // rip c# hashset
+        private HashSet<Security> securities;
 
 		public List<Shareholder> Shareholders { get; }
 
-		public List<Security> Securities { get => securities.Keys.ToList(); }
+		public IEnumerable<Security> Securities { get => securities; }
 
-		[JsonProperty()]
+		[JsonProperty]
 		public string Name { get; }
 		
 		public Exchange()
 		{
+            securities = new HashSet<Security>();
 			Shareholders = new List<Shareholder>();
-			securities = new Dictionary<Security, Security>();
 		}
 
 		public Exchange(string name) : this()
 		{
 			Name = name;
 		}
-		public Exchange(string name, Dictionary<Security, Security> securities)
+
+		public Exchange(string name, IEnumerable<Security> securities)
 		{
 			Name = name;
 			Shareholders = new List<Shareholder>();
-			this.securities = securities;
+			this.securities = new HashSet<Security>(securities);
 		}
 
 		public void EnlistSecurity(Security security)
 		{
-			if (!securities.ContainsKey(security))
-				securities[security] = security;
+            securities.Add(security);
 		}
 
 		public void EnlistSecurity(params Security[] securities)
@@ -56,10 +64,10 @@ namespace TradeMe
 			switch (order.OrderType)
 			{
 				case OrderType.Ask:
-					securities[order.Security].AddAsk(order);
+                    securities.GetItem(order.Security).AddAsk(order);
 					break;
 				case OrderType.Bid:
-					securities[order.Security].AddBid(order);
+                    securities.GetItem(order.Security).AddBid(order);
 					break;
 				default:
 					throw new InvalidOperationException("OrderType must be set to Bid or Ask.");

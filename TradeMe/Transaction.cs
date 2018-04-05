@@ -16,13 +16,13 @@ namespace TradeMe
         [JsonProperty]
         internal Shareholder Seller { get; }
 
-        [JsonProperty()]
+        [JsonProperty]
         internal Security Share { get; }
 
-        [JsonProperty()]
+        [JsonProperty]
         internal decimal Price { get; }
 
-        [JsonProperty()]
+        [JsonProperty]
         internal decimal Amount { get; }
         internal decimal TotalCost { get { return Amount * Price; } }
 

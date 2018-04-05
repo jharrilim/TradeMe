@@ -32,5 +32,6 @@ namespace TradeMe.Tests
             Assert.NotEqual(transaction.ToJson(), json);
             Debug.WriteLine(json);
         }
+        
     }
 }
